@@ -77,15 +77,15 @@ WSGI_APPLICATION = 'dota2Private.wsgi.application'
 DATABASES = {
     'default': {
 
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
 
         'NAME': 'dota2',
 
-        'USER': 'dotaadmin',
+        'USER': 'postgres',
 
-        'PASSWORD': 'dota',
+        'PASSWORD': 'password',
 
-        'HOST': 'localhost',
+        'HOST': 'dota2.clijm7srumyd.eu-west-2.rds.amazonaws.com',
 
         'PORT': '5432',
 

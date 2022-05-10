@@ -1,36 +1,92 @@
 from .database_fetcher import getGamesDota2Api, getmatchesDetailsStratz
 from .dabase_writer import add_to_database
+from nordvpn_switcher import rotate_VPN
 
 import time
 from schedule import Scheduler
 import threading
-run = 200
+from .models import todo, Match
+from django.db import connections
+from django.db.utils import OperationalError
+from django.db import connection
+run = 0
 
 def fetch_and_write():
     global run
-    if not run ==429:
+    
+    
+    
+    try:
+        Match.objects.all().first()
+    except Exception:
+        connected = False
+        print("database connection failed")
+        connection.close()
+        cursor = connection.cursor()
+    else:
+        connected = True
+    if not run ==429 and connected == True:
         with open(r'dota2Private\privateApp\lastSequence.txt') as f:
             maxid = f.readline
             maxid =maxid()
-        matchIds = []
-        resd2, matchIds = getGamesDota2Api(maxid,matchIds)
-        if resd2 == 200:
-            chunks = [matchIds[x:x+10] for x in range(0, len(matchIds), 10)]
+        allIds=[]
+        last_seq = 0
+        for i in range(0,9):
+            resd2, matchIds, temp_last_seq = getGamesDota2Api(maxid)
+            if resd2 ==200:
+                allIds+=matchIds
+                last_seq = temp_last_seq
+                maxid=temp_last_seq
+            elif i > 2:
+                break
+            else:
+                time.sleep(2)
+               
+            
+        print("Found "+str(len(allIds))+" matches")
+        if not len(allIds) == 0:
+            print(str(allIds[len(allIds)-1]))
+            chunks = [allIds[x:x+100] for x in range(0, len(allIds), 100)]
+            success=True
             for chunk in chunks:
                 resstratz, data = getmatchesDetailsStratz(chunk,maxid)
                 run = resstratz
-            
                 if resstratz==200:
                     add_to_database(data)
-                else: break
-        
+                    
+                    
+                else: 
+                    success=False
+                    break
+                    
+            if success and last_seq!=0:
+                try:
+                    with open('dota2Private\privateApp\lastSequence.txt', "w") as myfile:
+                        myfile.write(last_seq)
+                except Exception as e:
+                    print('File error main loop '+ str(e))
+                    try:
+                        with open('dota2Private\privateApp\lastSequence.txt', "w") as myfile:
+                            myfile.write(last_seq)
+                    except Exception as e:
+                        print('File error main loop '+ str(e))
         elif resd2 != 200:
             time.sleep(5)
         
     else:
-        time.sleep(900)
+        if(run==429):
+            rotate_VPN()
+        time.sleep(30)
         run = 200
         
+def clean_todo():
+    for e in todo.objects.values_list('match_id', flat=True).distinct():
+        todo.objects.filter(pk__in=todo.objects.filter(match_id=e).values_list('match_id', flat=True)[1:]).delete()
+        print(e)        
+
+
+    
+
 def run_continuously(self, interval=1):
         """Continuously run, while executing pending jobs at each elapsed
     time interval.

@@ -1,0 +1,48 @@
+{% extends "privateApp/template.html" %}
+{% block title %}
+results
+{% endblock %}
+{% block content %}
+{% if result%}
+<p>Found {{result.count}} matches</p>
+<table>
+<tr>
+    <th>Match Id</th>
+    <th>W/L</th>
+    <th>Hero</th>
+    <th>Match Time</th>
+    <th>Lobby Type</th>
+    <th>Kills</th>
+    <th>Deaths</th>
+    <th>Assists</th>
+</tr>
+{% for r in result %}
+<tr>
+
+    <td>{{r.match_id.matchId}} </td>
+    <td>{{r.victory}}</td>
+    <td>{{r.hero}}</td>
+    <td>{{r.match_id.end_time}}</td>
+    <td>{{r.match_id.lobby_type}}</td>
+    <td>{{r.kills}}</td>
+    <td>{{r.deaths}}</td>
+    <td>{{r.assists}}</td>
+</tr>
+
+
+{% endfor %}
+</table>
+{% endif %}
+
+{%if match_result%}
+<table>
+<tr>
+    <th>Match Id</th>
+    <th>Winner</th>
+    <th>Match time</th>
+    
+
+
+{%endif%}
+
+{% endblock %}
