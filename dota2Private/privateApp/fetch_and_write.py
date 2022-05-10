@@ -26,7 +26,7 @@ def fetch_and_write():
     else:
         connected = True
     if not run ==429 and connected == True:
-        with open(r'privateApp\lastSequence.txt') as f:
+        with open(r'privateApp/lastSequence.txt') as f:
             maxid = f.readline
             maxid =maxid()
         allIds=[]
@@ -61,12 +61,12 @@ def fetch_and_write():
                     
             if success and last_seq!=0:
                 try:
-                    with open('privateApp\lastSequence.txt', "w") as myfile:
+                    with open('privateApp/lastSequence.txt', "w") as myfile:
                         myfile.write(last_seq)
                 except Exception as e:
                     print('File error main loop '+ str(e))
                     try:
-                        with open('privateApp\lastSequence.txt', "w") as myfile:
+                        with open('privateApp/lastSequence.txt', "w") as myfile:
                             myfile.write(last_seq)
                     except Exception as e:
                         print('File error main loop '+ str(e))
