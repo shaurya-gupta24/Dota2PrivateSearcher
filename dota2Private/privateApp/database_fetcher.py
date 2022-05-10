@@ -53,7 +53,7 @@ def get_games(id):
         else:
             success = False
     lastid = str(lastid)
-    with open('dota2Private\privateApp\lastSequence.txt', "w") as myfile:
+    with open('privateApp\lastSequence.txt', "w") as myfile:
         myfile.write(lastid)
     return success, lastid
         

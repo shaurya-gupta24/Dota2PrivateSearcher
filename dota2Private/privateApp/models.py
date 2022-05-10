@@ -9,7 +9,7 @@ class Match(models.Model):
     rank = models.BigIntegerField()
     sequenceNum=models.BigIntegerField()
     end_time = models.BigIntegerField()
-    lobby_type=models.IntegerField()
+    lobby_type=models.CharField(max_length=30)
     
 class Player(models.Model):
     player_id = models.BigIntegerField()

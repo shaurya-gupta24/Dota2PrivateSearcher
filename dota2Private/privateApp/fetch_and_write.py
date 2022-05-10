@@ -61,12 +61,12 @@ def fetch_and_write():
                     
             if success and last_seq!=0:
                 try:
-                    with open('dota2Private\privateApp\lastSequence.txt', "w") as myfile:
+                    with open('privateApp\lastSequence.txt', "w") as myfile:
                         myfile.write(last_seq)
                 except Exception as e:
                     print('File error main loop '+ str(e))
                     try:
-                        with open('dota2Private\privateApp\lastSequence.txt', "w") as myfile:
+                        with open('privateApp\lastSequence.txt', "w") as myfile:
                             myfile.write(last_seq)
                     except Exception as e:
                         print('File error main loop '+ str(e))
