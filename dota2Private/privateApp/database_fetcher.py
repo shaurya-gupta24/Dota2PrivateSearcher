@@ -80,7 +80,7 @@ def getGamesDota2Api(id):
         for e in data['result']['matches']:
             if e['cluster'] in acceptable_ids and e['game_mode'] in acceptable_game_modes:
                 matchIds.append(e['match_id'])
-        print(data)
+        
         last_sequence = data['result']['matches'][len(data['result']['matches'])-1]['match_seq_num']
 
     return response.status_code, matchIds,str(last_sequence)

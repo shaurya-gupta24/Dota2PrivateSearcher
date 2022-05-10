@@ -26,7 +26,7 @@ def fetch_and_write():
     else:
         connected = True
     if not run ==429 and connected == True:
-        with open(r'dota2Private\privateApp\lastSequence.txt') as f:
+        with open(r'privateApp\lastSequence.txt') as f:
             maxid = f.readline
             maxid =maxid()
         allIds=[]
