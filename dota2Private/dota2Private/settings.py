@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,13 +80,13 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'dota2',
+        'NAME': 'dota',
 
         'USER': 'postgres',
 
-        'PASSWORD': 'password',
+        'PASSWORD': os.environ.get('password'),
 
-        'HOST': 'dota2.clijm7srumyd.eu-west-2.rds.amazonaws.com',
+        'HOST': 'dota.clijm7srumyd.eu-west-2.rds.amazonaws.com',
 
         'PORT': '5432',
 

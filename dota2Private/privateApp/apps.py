@@ -7,5 +7,6 @@ class PrivateappConfig(AppConfig):
 
     def ready(self):
         from . import fetch_and_write
+        
         if os.environ.get('RUN_MAIN', None) != 'true':
             fetch_and_write.start_scheduler()
