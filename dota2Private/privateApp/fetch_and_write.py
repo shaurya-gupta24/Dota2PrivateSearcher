@@ -12,9 +12,8 @@ from django.db import connection
 run = 0
 
 def fetch_and_write():
+    
     global run
-    
-    
     
     try:
         Match.objects.all().first()
